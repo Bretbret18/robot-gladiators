@@ -9,6 +9,8 @@ var enemyHealth = 50;
 var enemyAttack = 12;
 
 
+
+
 var fight = function(enemyName) {
     while (playerHealth > 0 && enemyHealth > 0) {
       // ask player if they'd liked to fight or run
@@ -18,16 +20,16 @@ var fight = function(enemyName) {
       if (promptFight === "skip" || promptFight === "SKIP") {
         // confirm player wants to skip
         var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-  
+      
         // if yes (true), leave fight
         if (confirmSkip) {
-          window.alert(playerName + ' has decided to skip this fight. Goodbye!');
+          window.alert(playerName + ' has decided to skip this fight. Goodbye! ');
           // subtract money from playerMoney for skipping
           playerMoney = playerMoney - 10;
           console.log("playerMoney", playerMoney)
           break;
         }
-      }
+    }
   
       // remove enemy's health by subtracting the amount set in the playerAttack variable
       enemyHealth = enemyHealth - playerAttack;
@@ -47,6 +49,8 @@ var fight = function(enemyName) {
       } else {
         window.alert(enemyName + ' still has ' + enemyHealth + ' health left.');
       }
+    }
+};
   
       // remove players's health by subtracting the amount set in the enemyAttack variable
       playerHealth = playerHealth - enemyAttack;
@@ -54,24 +58,23 @@ var fight = function(enemyName) {
         enemyName + ' attacked ' + playerName + '. ' + playerName + ' now has ' + playerHealth + ' health remaining.'
       );
   
-      // check player's health
-      if (playerHealth <= 0) {
-        window.alert("Welcome to Robot Gladiators! Round" + ( i + 1));
+    // function to start a new game
+var startGame = function() {
+    for (var i = 0; i < enemyNames.length; i++) {
+      if (playerHealth > 0) {
+        window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
+  
         var pickedEnemyName = enemyNames[i];
+  
         enemyHealth = 50;
+  
         fight(pickedEnemyName);
-      }
-
-        window.alert(playerName + ' has died!');
-        // leave while() loop if player is dead
-    
-       else {
-        window.alert(playerName + ' still has ' + playerHealth + ' health left.');
+      
+      else {
+        window.alert("You have lost your robot in battle! Game Over!");
         break;
-       
+      }
+    }
+}
 
-        // if no (false), ask question again by running fight() again
 
-fight(); 
-       }
-    
