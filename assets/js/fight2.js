@@ -31,14 +31,17 @@ var fight = function (enemyName) {
       // if yes (true), leave fight
       if (confirmSkip) {
         window.alert(playerName + " has chosen to skip the fight!");
-        playerMoney = playerMoney - 10;
+        playerMoney = Math.max(0, playerMoney - 10); // ?
         console.log("playerMoney", playerMoney);
         break;
       }
     }
 
+    // generate random damage value based on player's attack power
+    var damage = randomNumber(playerAttack - 3, playerAttack);
+
     // remove enemy's health by subtracting the amount set in the playerAttack variable
-    enemyHealth = Math.max(0, enemyHealth - playerAttack);
+    enemyHealth = Math.max(0, enemyHealth - damage);
     console.log(
       playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
     );
@@ -56,8 +59,10 @@ var fight = function (enemyName) {
       window.alert(enemyName + " still has " + enemyHealth + " health left.");
     }
 
+    var damage = randomNumber(enemyAttack - 3, enemyAttack); // variable declared twice? (in same function?) //
+// 3.4.4 //
     // remove player's health by subtracting the amount set in the enemyAttack variable
-    playerHealth = Math.max(0, playerHealth - enemyAttack);
+    playerHealth = Math.max(0, playerHealth - damage);
     console.log(
       enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
     );
@@ -82,13 +87,11 @@ var startGame = function () {
   for (var i = 0; i < enemyNames.length; i++) {
     if (playerHealth > 0) {
       window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
-      var pickedEnemyName = enemyNames[i];
-      var randomNumber = function () {
-        enemyHealth = Math.floor(Math.random() * 21) + 40;
+      var pickedEnemyName = enemyNames[i]; // inside or outside of function? //
 
-        return;
-      };
-      fight(pickedEnemyName);
+      enemyHealth = randomNumber(40, 60);
+
+      // fight(pickedEnemyName); //
 
       // if we're not at the last enemy in the array
       if (playerHealth > 0 && i < enemyNames.length - 1) {
@@ -107,15 +110,19 @@ var startGame = function () {
 
       }
       if (playerAgainConfirm) {
-
+        // play again
+        endGame();
 
       }
-      // play again
-      endGame();
     }
-  };
+  }
+};
 
-}
+var randomNumber = function (min, max) {
+var value = Math.floor(Math.random() * (max - min + 1) + min); // pass numbers in arguement? //
+
+return value;
+};
 
 var shop = function () {
   // ask the player what they'd like to do
@@ -176,7 +183,7 @@ var endGame = function () {
     window.alert("You've lost your robot in battle");
   }
 
- // took playerAgainConfirm out of function //
+  // took playerAgainConfirm out of function //
 
   // restart the game
   if (playerAgainConfirm) {
@@ -193,5 +200,5 @@ var endGame = function () {
 // start the game when the page loads
 startGame();
 
-// Got lost at 3.4.4
-// shop() is not working
+// 3.4 only plays first round
+// only fights first enemy robot
